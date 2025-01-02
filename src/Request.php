@@ -342,3 +342,4 @@ class Request
     {
         return $response->toJson();
     }
+}
