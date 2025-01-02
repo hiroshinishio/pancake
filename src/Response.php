@@ -18,7 +18,6 @@ class Response
         $instance->httpCode = $httpCode;
         return $instance;
     }
-<?php
 
 namespace GuiBranco\Pancake;
 
