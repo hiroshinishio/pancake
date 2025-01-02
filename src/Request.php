@@ -94,7 +94,7 @@ class Request
      * @param string $url The URL that was requested.
      * @return Response The processed response.
      */
-    private function handleResponse(bool|string $response, CurlHandle $curl, string $url): Response
+    private function handleResponse($response, CurlHandle $curl, string $url): Response
     {
         if ($response === false) {
             $error = curl_error($curl);
@@ -105,6 +105,7 @@ class Request
         $header = substr($response, 0, $headerSize);
         $headers = $this->extractHeaders($header);
         $body = substr($response, $headerSize);
+        $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
         $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
 
         return Response::success($body, $url, $headers, $httpCode);
@@ -117,7 +118,7 @@ class Request
      * @param array $fields The fields to be included in the request.
      * @return Response The response from the request execution.
      */
-    private function execute($fields): Response
+    private function execute(array $fields): Response
     {
         $curl = curl_init();
         curl_setopt_array($curl, $fields);
@@ -215,7 +216,7 @@ class Request
      * @param array $headers Optional. An array of headers to include in the request. Default is an empty array.
      * @return Response The response object containing the result of the GET request.
      */
-    public function get($url, $headers = array()): Response
+    public function get(string $url, array $headers = []): Response
     {
         $fields = $this->getFields($url, $headers);
         return $this->execute($fields);
@@ -229,7 +230,7 @@ class Request
      * @param mixed $data Optional data to include in the body of the POST request.
      * @return Response The response from the server.
      */
-    public function post($url, $headers = array(), $data = null): Response
+    public function post(string $url, array $headers = [], $data = null): Response
     {
         $fields = $this->getFields($url, $headers);
         $fields[CURLOPT_CUSTOMREQUEST] = "POST";
@@ -247,7 +248,7 @@ class Request
      * @param mixed $data Optional. The data to send with the PUT request.
      * @return Response The response from the server.
      */
-    public function put($url, $headers = array(), $data = null): Response
+    public function put(string $url, array $headers = [], $data = null): Response
     {
         $fields = $this->getFields($url, $headers);
         $fields[CURLOPT_CUSTOMREQUEST] = "PUT";
@@ -265,7 +266,7 @@ class Request
      * @param mixed $data Optional. The data to send with the request.
      * @return Response The response from the DELETE request.
      */
-    public function delete($url, $headers = array(), $data = null): Response
+    public function delete(string $url, array $headers = [], $data = null): Response
     {
         $fields = $this->getFields($url, $headers);
         $fields[CURLOPT_CUSTOMREQUEST] = "DELETE";
@@ -283,7 +284,7 @@ class Request
      * @param mixed $data Optional. The data to send with the request.
      * @return Response The response from the server.
      */
-    public function patch($url, $headers = array(), $data = null): Response
+    public function patch(string $url, array $headers = [], $data = null): Response
     {
         $fields = $this->getFields($url, $headers);
         $fields[CURLOPT_CUSTOMREQUEST] = "PATCH";
@@ -300,7 +301,7 @@ class Request
      * @param array $headers Optional. An array of headers to include in the request.
      * @return Response The response object containing the result of the request.
      */
-    public function options($url, $headers = array()): Response
+    public function options(string $url, array $headers = []): Response
     {
         $fields = $this->getFields($url, $headers);
         $fields[CURLOPT_CUSTOMREQUEST] = "OPTIONS";
@@ -314,7 +315,7 @@ class Request
      * @param array $headers Optional. An array of headers to include in the request.
      * @return Response The response object containing the response data.
      */
-    public function head($url, $headers = array()): Response
+    public function head(string $url, array $headers = []): Response
     {
         $fields = $this->getFields($url, $headers);
         $fields[CURLOPT_CUSTOMREQUEST] = "HEAD";
