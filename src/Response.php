@@ -2,6 +2,26 @@
 
 namespace GuiBranco\Pancake;
 
+class Response
+{
+    private $data;
+    private $url;
+    private $headers;
+    private $httpCode;
+
+    public static function success($data, $url, $headers, $httpCode)
+    {
+        // Implementation for success response
+    }
+
+    public static function error($error, $url, $httpCode)
+    {
+        // Implementation for error response
+    }
+<?php
+
+namespace GuiBranco\Pancake;
+
 use GuiBranco\Pancake\RequestException;
 
 class Response
