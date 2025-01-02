@@ -340,5 +340,6 @@ class Request
      */
     public function getResponseAsJson(Response $response): string
     {
+    }
         return $response->toJson();
     }
