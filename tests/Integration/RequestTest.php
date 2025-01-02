@@ -14,6 +14,8 @@ final class RequestTest extends TestCase
         $request = new Request();
         $response = $request->get('https://httpbin.org/get');
         $this->assertEquals(200, $response->getStatusCode());
+        $this->assertTrue($response->isSuccess());
+        $this->assertNotEmpty($response->getMessage());
     }
 
     public function testCanPost(): void
@@ -21,6 +23,8 @@ final class RequestTest extends TestCase
         $request = new Request();
         $response = $request->post('https://httpbin.org/post');
         $this->assertEquals(200, $response->getStatusCode());
+        $this->assertTrue($response->isSuccess());
+        $this->assertNotEmpty($response->getMessage());
     }
 
     public function testCanPostWithPayload(): void
@@ -28,6 +32,8 @@ final class RequestTest extends TestCase
         $request = new Request();
         $response = $request->post('https://httpbin.org/post', array(), ['name' => 'GuiBranco']);
         $this->assertEquals(200, $response->getStatusCode());
+        $this->assertTrue($response->isSuccess());
+        $this->assertNotEmpty($response->getMessage());
     }
 
     public function testCanPut(): void
@@ -35,6 +41,8 @@ final class RequestTest extends TestCase
         $request = new Request();
         $response = $request->put('https://httpbin.org/put');
         $this->assertEquals(200, $response->getStatusCode());
+        $this->assertTrue($response->isSuccess());
+        $this->assertNotEmpty($response->getMessage());
     }
 
     public function testCanPutWithPayload(): void
@@ -42,6 +50,8 @@ final class RequestTest extends TestCase
         $request = new Request();
         $response = $request->put('https://httpbin.org/put', array(), ['name' => 'GuiBranco']);
         $this->assertEquals(200, $response->getStatusCode());
+        $this->assertTrue($response->isSuccess());
+        $this->assertNotEmpty($response->getMessage());
     }
 
     public function testCanPatch(): void
@@ -49,6 +59,8 @@ final class RequestTest extends TestCase
         $request = new Request();
         $response = $request->patch('https://httpbin.org/patch');
         $this->assertEquals(200, $response->getStatusCode());
+        $this->assertTrue($response->isSuccess());
+        $this->assertNotEmpty($response->getMessage());
     }
 
     public function testCanPatchWithPayload(): void
@@ -56,6 +68,8 @@ final class RequestTest extends TestCase
         $request = new Request();
         $response = $request->patch('https://httpbin.org/patch', array(), ['name' => 'GuiBranco']);
         $this->assertEquals(200, $response->getStatusCode());
+        $this->assertTrue($response->isSuccess());
+        $this->assertNotEmpty($response->getMessage());
     }
 
     public function testCanDelete(): void
@@ -63,6 +77,8 @@ final class RequestTest extends TestCase
         $request = new Request();
         $response = $request->delete('https://httpbin.org/delete');
         $this->assertEquals(200, $response->getStatusCode());
+        $this->assertTrue($response->isSuccess());
+        $this->assertNotEmpty($response->getMessage());
     }
 
     public function testCanDeleteWithPayload(): void
@@ -70,6 +86,8 @@ final class RequestTest extends TestCase
         $request = new Request();
         $response = $request->delete('https://httpbin.org/delete', array(), ['name' => 'GuiBranco']);
         $this->assertEquals(200, $response->getStatusCode());
+        $this->assertTrue($response->isSuccess());
+        $this->assertNotEmpty($response->getMessage());
     }
 
     public function testCanOptions(): void
@@ -77,6 +95,8 @@ final class RequestTest extends TestCase
         $request = new Request();
         $response = $request->options('https://httpbin.org/get');
         $this->assertEquals(200, $response->getStatusCode());
+        $this->assertTrue($response->isSuccess());
+        $this->assertNotEmpty($response->getMessage());
     }
 
     public function testCanHead(): void
@@ -84,6 +104,8 @@ final class RequestTest extends TestCase
         $request = new Request();
         $response = $request->head('https://httpbin.org/get', ['Host: httpbin.org']);
         $this->assertEquals(200, $response->getStatusCode());
+        $this->assertTrue($response->isSuccess());
+        $this->assertNotEmpty($response->getMessage());
     }
 
     public function testCanGetWithHeaders(): void
@@ -91,6 +113,8 @@ final class RequestTest extends TestCase
         $request = new Request();
         $response = $request->get('https://httpbin.org/headers', ['X-Test: test']);
         $this->assertEquals(200, $response->getStatusCode());
+        $this->assertTrue($response->isSuccess());
+        $this->assertNotEmpty($response->getMessage());
     }
 
     public function testCanPostWithHeaders(): void
@@ -98,6 +122,8 @@ final class RequestTest extends TestCase
         $request = new Request();
         $response = $request->post('https://httpbin.org/post', ['X-Test: test'], json_encode(['name' => 'GuiBranco']));
         $this->assertEquals(200, $response->getStatusCode());
+        $this->assertTrue($response->isSuccess());
+        $this->assertNotEmpty($response->getMessage());
     }
 
     public function testCanPutWithHeaders(): void
@@ -105,6 +131,8 @@ final class RequestTest extends TestCase
         $request = new Request();
         $response = $request->put('https://httpbin.org/put', ['X-Test: test'], json_encode(['name' => 'GuiBranco']));
         $this->assertEquals(200, $response->getStatusCode());
+        $this->assertTrue($response->isSuccess());
+        $this->assertNotEmpty($response->getMessage());
     }
 
     public function testCanPatchWithHeaders(): void
@@ -112,6 +140,8 @@ final class RequestTest extends TestCase
         $request = new Request();
         $response = $request->patch('https://httpbin.org/patch', ['X-Test: test'], json_encode(['name' => 'GuiBranco']));
         $this->assertEquals(200, $response->getStatusCode());
+        $this->assertTrue($response->isSuccess());
+        $this->assertNotEmpty($response->getMessage());
     }
 
     public function testCanDeleteWithHeaders(): void
@@ -119,6 +149,8 @@ final class RequestTest extends TestCase
         $request = new Request();
         $response = $request->delete('https://httpbin.org/delete', ['X-Test: test'], json_encode(['name' => 'GuiBranco']));
         $this->assertEquals(200, $response->getStatusCode());
+        $this->assertTrue($response->isSuccess());
+        $this->assertNotEmpty($response->getMessage());
     }
 
     public function testCannotGet(): void
@@ -126,6 +158,8 @@ final class RequestTest extends TestCase
         $request = new Request();
         $response = $request->get('https://non-existing-url');
         $this->assertEquals(-1, $response->getStatusCode());
+        $this->assertFalse($response->isSuccess());
+        $this->assertNotEmpty($response->getMessage());
     }
 
     public function testCanAddRequest(): void
@@ -135,6 +169,8 @@ final class RequestTest extends TestCase
         $responses = $request->executeBatch();
         $this->assertArrayHasKey('test', $responses);
         $this->assertEquals(200, $responses['test']->getStatusCode());
+        $this->assertTrue($responses['test']->isSuccess());
+        $this->assertNotEmpty($responses['test']->getMessage());
     }
 
     public function testCanAddMultipleRequests(): void
@@ -147,7 +183,11 @@ final class RequestTest extends TestCase
         $this->assertArrayHasKey('test2', $responses);
         $this->assertEquals(200, $responses['test1']->getStatusCode());
         $this->assertEquals(200, $responses['test2']->getStatusCode());
+        $this->assertTrue($responses['test1']->isSuccess());
+        $this->assertNotEmpty($responses['test1']->getMessage());
     }
+        $this->assertTrue($responses['test2']->isSuccess());
+        $this->assertNotEmpty($responses['test2']->getMessage());
 
     public function testCanAddRequestWithHeaders(): void
     {
@@ -156,6 +196,8 @@ final class RequestTest extends TestCase
         $responses = $request->executeBatch();
         $this->assertArrayHasKey('test', $responses);
         $this->assertEquals(200, $responses['test']->getStatusCode());
+        $this->assertTrue($responses['test']->isSuccess());
+        $this->assertNotEmpty($responses['test']->getMessage());
     }
 
     public function testCanAddRequestWithPayload(): void
@@ -164,6 +206,8 @@ final class RequestTest extends TestCase
         $request->addRequest('test', 'https://httpbin.org/post', [], 'POST', ['name' => 'GuiBranco']);
         $responses = $request->executeBatch();
         $this->assertArrayHasKey('test', $responses);
+        $this->assertTrue($responses['test']->isSuccess());
+        $this->assertNotEmpty($responses['test']->getMessage());
         $this->assertEquals(200, $responses['test']->getStatusCode());
     }
 
@@ -173,5 +217,7 @@ final class RequestTest extends TestCase
         $request->setSSLVerification(false);
         $response = $request->get('https://httpbin.org/get');
         $this->assertEquals(200, $response->getStatusCode());
+        $this->assertTrue($response->isSuccess());
+        $this->assertNotEmpty($response->getMessage());
     }
 }
