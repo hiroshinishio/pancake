@@ -322,3 +322,23 @@ class Request
         return $this->execute($fields);
     }
 }
+    /**
+     * Converts a Response object to an array.
+     *
+     * @param Response $response The Response object to convert.
+     * @return array The response as an array.
+     */
+    public function getResponseAsArray(Response $response): array
+    {
+        return $response->toArray();
+    }
+
+    /**
+     * Converts a Response object to a JSON string.
+     *
+     * @param Response $response The Response object to convert.
+     * @return string The response as a JSON string.
+     */
+    public function getResponseAsJson(Response $response): string
+    {
+        return $response->toJson();
