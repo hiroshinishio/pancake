@@ -1,5 +1,20 @@
 <?php
 
+use GuiBranco\Pancake\Request;
+use GuiBranco\Pancake\Response;
+
+class RequestTest extends \PHPUnit\Framework\TestCase
+{
+    public function testResponseToArray()
+    {
+        $request = new Request();
+        $response = new Response();
+        $array = $request->responseToArray($response);
+        $this->assertIsArray($array);
+    }
+
+<?php
+
 declare(strict_types=1);
 
 namespace GuiBranco\Pancake\Tests\Integration;
