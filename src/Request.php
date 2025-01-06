@@ -10,6 +10,7 @@ class Request
 {
     private array $multiRequests = [];
 
+    private bool $returnRawResponse = false;
     private bool $verifySSL = true;
 
     private const MAX_CONCURRENT_REQUESTS = 10;
@@ -127,6 +128,10 @@ class Request
         curl_close($curl);
 
         return $response;
+        if ($this->returnRawResponse) {
+            return [
+                'response' => $responseContent, 'url' => $fields[CURLOPT_URL]
+            ];
     }
 
     /**
@@ -140,8 +145,18 @@ class Request
     {
         $this->verifySSL = $verify;
     }
+    }
 
     /**
+     * Set the flag to return raw responses.
+     *
+     * @param bool $flag Whether to return raw responses.
+
+    public function setReturnRawResponse(bool $flag): void
+    {
+    /**
+        $this->returnRawResponse = $flag;
+
      * Add a request to the batch.
      *
      * @param string $key A unique identifier for the request.
